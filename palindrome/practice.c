@@ -23,26 +23,15 @@ int isPalindrome(int n){
         pow*=10;
     len+=1;
     len/=2;
-    if(!amountDigitsEven(len)){
-        while(len--){
-            if((n%mod)/inc != (n/pow)%10)
-                return 0;
-            inc*=10;
-            mod*=10;
-            pow/=10;
+    while(len--){
+        if((n%mod)/inc != (n/pow)%10)
+            return 0;
+        inc*=10;
+        mod*=10;
+        pow/=10;
 
-        }
-    }else{
-    
-        while(len--){
-            if((n%mod)/inc != (n/pow)%10)
-                return 0;
-            inc*=10;
-            mod*=10;
-            pow/=10;
-
-        }
     }
+    
     
     return 1;
 

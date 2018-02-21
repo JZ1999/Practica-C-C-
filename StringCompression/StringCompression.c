@@ -1,38 +1,92 @@
+/*String compression Challenge
+ * Example,
+ * input: aaabbbbccd
+ * output: a3b4c2d1
+ */
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-const char* compresults(char* string);
+const char* compresults(char* string, int *nums);
+int arrayLen(char *str);
+
+typedef struct compress{
+    char *string;
+    int diffLetters;
+    int *nums;
+    char *chars;
+
+} compress;
+
 
 int main(){
-    char string[15];
+    //Vars setup
+    compress cmpr;
+    cmpr.string = (char *) calloc(15,sizeof(int));
+    scanf("%s",cmpr.string);
+    int len = arrayLen(cmpr.string);
+    cmpr.nums = (int *) calloc(len,sizeof(char));
 
-    scanf("%s",string);
 
-    if(!strlen(string))
+
+    
+
+    if(!strlen(cmpr.string))
         puts("Invalid Input");
-    else
-        printf("%s",compresults(string));
+    else{
+
+        printf("%s\n",compresults(cmpr.string,cmpr.nums));
+    }
 
 
     return 0;
 }
-const char* compresults(char* string){
-    char* result = "";
-    int len = strlen(string);
-    char currentChar;
-    int repeat = 1;
-    char repeatToString;
-
-    for(int x = 0;x < len; x++){
-        if(string[x] != currentChar){
-            strcat(result, &string[x]); 
-            repeatToString = (char)repeat + 48;
-            strcat(result, &repeatToString);
-            currentChar = string[x];
-            repeat = 1;
+const char* compresults(char* string, int *nums){
+    char curr = '\0'; 
+    int pos = -1;
+    
+    for(int x = 0; x < strlen(string); x++){
+        if(curr != string[x]){
+            curr = string[x];
+            pos++;
+            nums[pos]++;
+        
         }else{
-            repeat+=1;
-        }
-    }
+            nums[pos]++;
 
+        }
+    
+    }
+    int y;
+    for(y = 0; nums[y] != 0; y++);
+    nums = (int *) realloc(nums, y*sizeof(int));
+    char *chars = (char *) calloc(y+1,sizeof(char));
+    curr = '\0';
+    pos = 0;
+    for(int x = 0; x < strlen(string);x++){
+        if(curr != string[x]){
+            curr = string[x];
+            chars[pos] = string[x]; 
+            pos++;
+        }
+    
+    }
+    char *res = (char *) calloc((y*2)+1,sizeof(char));
+    int x = 0;
+    while(y--){
+        res[x+x] = chars[x];
+        res[x+x+1] = nums[x]+48;
+        x++;
+    }
+    return res;
+}
+
+int arrayLen(char *str){
+    int len = 0;
+    char c = str[0];
+    while(c != '\0'){
+        len++;
+        c = str[len];
+    }
+    return len;
 }
